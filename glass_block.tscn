@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://c8ajd0iivlwy2"]
+
+[ext_resource type="Script" path="res://glass_block.gd" id="1_qwo7j"]
+[ext_resource type="Texture2D" uid="uid://406mvjfnkqhn" path="res://sprites/basic_tileset.png" id="2_pfk7f"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xhgod"]
+size = Vector2(16, 16)
+
+[node name="GlassBlock" type="StaticBody2D"]
+script = ExtResource("1_qwo7j")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_xhgod")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_pfk7f")
+hframes = 6
+vframes = 10
+frame = 23

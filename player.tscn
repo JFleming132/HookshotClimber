@@ -1,0 +1,117 @@
+[gd_scene load_steps=9 format=3 uid="uid://c0y86lp2l3xie"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_qn71w"]
+[ext_resource type="Texture2D" uid="uid://cjetqis3qctdw" path="res://sprites/player_spritesheet.png" id="2_gx2ml"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_usxb3"]
+size = Vector2(22.75, 29.25)
+
+[sub_resource type="Animation" id="Animation_er672"]
+resource_name = "fall"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [5]
+}
+
+[sub_resource type="Animation" id="Animation_w2nvi"]
+resource_name = "idle"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 4]
+}
+
+[sub_resource type="Animation" id="Animation_d4epg"]
+resource_name = "jump"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [7]
+}
+
+[sub_resource type="Animation" id="Animation_blsst"]
+resource_name = "walk"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 6, 4, 2]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rdwks"]
+_data = {
+"fall": SubResource("Animation_er672"),
+"idle": SubResource("Animation_w2nvi"),
+"jump": SubResource("Animation_d4epg"),
+"walk": SubResource("Animation_blsst")
+}
+
+[node name="Player" type="CharacterBody2D"]
+position = Vector2(-13, -23)
+collision_layer = 8
+collision_mask = 23
+script = ExtResource("1_qn71w")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1.75, -0.25)
+shape = SubResource("RectangleShape2D_usxb3")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_gx2ml")
+hframes = 2
+vframes = 4
+frame = 5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "idle"
+libraries = {
+"": SubResource("AnimationLibrary_rdwks")
+}
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_enabled = true
+
+[node name="hookshot" type="Marker2D" parent="."]
+position = Vector2(12, 1)
+
+[node name="ProjectedMovement" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 7
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ProjectedMovement"]
+position = Vector2(-1.625, -0.375)
+shape = SubResource("RectangleShape2D_usxb3")
+
+[connection signal="body_entered" from="ProjectedMovement" to="." method="_on_projected_movement_body_entered"]

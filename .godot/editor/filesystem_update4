@@ -1,0 +1,9 @@
+res://default_env.tres
+res://tutorial.tscn
+res://title_screen.tscn
+res://walking_ghoul.tscn
+res://player.tscn
+res://level_entrance.tscn
+res://hub1.tscn
+res://textbox.tscn
+res://textbox.gd
